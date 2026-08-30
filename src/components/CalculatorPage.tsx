@@ -8,6 +8,18 @@ import { CalculatorKnowledge } from './CalculatorKnowledge';
 import { AdBanner } from './AdBanner';
 import { AlertCircle, ArrowLeft } from 'lucide-react';
 
+// Specialized Interactive Education Toolkit Components
+import { TimeComplexityAnalyzerTool } from './education/TimeComplexityAnalyzerTool';
+import { BigOComparisonTool } from './education/BigOComparisonTool';
+import { SortingComplexityTool } from './education/SortingComplexityTool';
+import { DataStructureComplexityTool } from './education/DataStructureComplexityTool';
+import { KMapSolverTool } from './education/KMapSolverTool';
+import { BooleanSimplifierTool } from './education/BooleanSimplifierTool';
+import { NumberSystemConverterTool } from './education/NumberSystemConverterTool';
+import { RecursionMasterTheoremTool } from './education/RecursionMasterTheoremTool';
+import { AlgorithmCheatSheetTool } from './education/AlgorithmCheatSheetTool';
+import { AcademicGradeToolkit } from './education/AcademicGradeToolkit';
+
 interface CalculatorPageProps {
   idOrSlug: string;
 }
@@ -77,36 +89,73 @@ export const CalculatorPage: React.FC<CalculatorPageProps> = ({ idOrSlug }) => {
     );
   }
 
+  // Render specialized dedicated interactive tools if matching
+  const renderCustomInteractiveTool = () => {
+    switch (calculator.id) {
+      case 'time-complexity-analyzer':
+        return <TimeComplexityAnalyzerTool />;
+      case 'big-o-comparison':
+        return <BigOComparisonTool />;
+      case 'sorting-complexity':
+        return <SortingComplexityTool />;
+      case 'data-structure-complexity':
+        return <DataStructureComplexityTool />;
+      case 'kmap-solver':
+        return <KMapSolverTool />;
+      case 'boolean-simplifier':
+        return <BooleanSimplifierTool />;
+      case 'number-system-converter':
+        return <NumberSystemConverterTool />;
+      case 'recursion-master-theorem':
+        return <RecursionMasterTheoremTool />;
+      case 'algorithm-cheat-sheet':
+        return <AlgorithmCheatSheetTool />;
+      case 'cgpa-calculator':
+      case 'sgpa-calculator':
+        return <AcademicGradeToolkit />;
+      default:
+        return null;
+    }
+  };
+
+  const customTool = renderCustomInteractiveTool();
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
       {/* Header with Title & Action Bar */}
       <CalculatorHeader calculator={calculator} onReset={handleReset} />
 
-      {/* Main 2-Column Responsive Workspace */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Left Column: Input Form (5 cols on lg) */}
-        <div className="lg:col-span-5 p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm">
-          <CalculatorForm
-            calculator={calculator}
-            values={values}
-            onChange={handleChange}
-          />
+      {/* Main Interactive Workspace: Either Custom Specialized Toolkit or Standard Form/Results */}
+      {customTool ? (
+        <div className="mt-4 mb-8">
+          {customTool}
         </div>
-
-        {/* Right Column: Real-Time Results & Visualizations (7 cols on lg) */}
-        <div className="lg:col-span-7 space-y-6">
-          {output ? (
-            <CalculatorResults
-              output={output}
-              calculatorName={calculator.name}
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {/* Left Column: Input Form (5 cols on lg) */}
+          <div className="lg:col-span-5 p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm">
+            <CalculatorForm
+              calculator={calculator}
+              values={values}
+              onChange={handleChange}
             />
-          ) : (
-            <div className="p-8 text-center text-slate-400 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800">
-              Calculating results...
-            </div>
-          )}
+          </div>
+
+          {/* Right Column: Real-Time Results & Visualizations (7 cols on lg) */}
+          <div className="lg:col-span-7 space-y-6">
+            {output ? (
+              <CalculatorResults
+                output={output}
+                calculatorName={calculator.name}
+              />
+            ) : (
+              <div className="p-8 text-center text-slate-400 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800">
+                Calculating results...
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* AdSense Monetization Placement */}
       <AdBanner format="horizontal" className="mt-8" />
