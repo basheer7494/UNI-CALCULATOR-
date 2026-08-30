@@ -1,0 +1,6 @@
+{
+  "name": "Universal Calculator Hub",
+  "description": "Fast, accurate, and easy-to-use calculators for finance, education, engineering, business, everyday life, and health.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
