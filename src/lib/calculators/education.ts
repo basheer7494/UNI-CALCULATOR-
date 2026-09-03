@@ -2,666 +2,7 @@ import { CalculatorDefinition } from '../../types/calculator';
 import { formatNumber } from '../utils';
 
 export const educationCalculators: CalculatorDefinition[] = [
-  // 1. AI TIME & SPACE COMPLEXITY ANALYZER (FLAGSHIP)
-  {
-    id: 'time-complexity-analyzer',
-    slug: 'time-complexity-analyzer',
-    name: 'AI Time & Space Complexity Analyzer',
-    shortName: 'Time Complexity Analyzer',
-    category: 'education',
-    description: 'Analyze any algorithm or code snippet in Python, C++, Java, or JavaScript to derive exact Big-O Time & Space Complexity, loop depths, and optimization tips.',
-    iconName: 'Cpu',
-    popular: true,
-    featured: true,
-    keywords: ['time complexity', 'space complexity', 'big o analyzer', 'big o calculator', 'algorithm complexity', 'code analysis', 'python time complexity', 'leetcode complexity', 'data structures'],
-    inputs: [
-      {
-        id: 'codeSnippet',
-        label: 'Source Code Input',
-        type: 'text',
-        defaultValue: 'for i in range(n):\n    for j in range(n):\n        print(i, j)',
-        placeholder: 'Paste your Python, C++, Java, or JS code here...'
-      },
-      {
-        id: 'language',
-        label: 'Programming Language',
-        type: 'select',
-        defaultValue: 'python',
-        options: [
-          { label: 'Python (3.x)', value: 'python' },
-          { label: 'C++ (C++17/20)', value: 'cpp' },
-          { label: 'Java', value: 'java' },
-          { label: 'JavaScript / TypeScript', value: 'javascript' }
-        ]
-      }
-    ],
-    calculate: () => {
-      return {
-        primaryMetric: {
-          label: 'Estimated Time Complexity',
-          value: 'O(n²)',
-          formattedValue: 'O(n²)',
-          subtext: 'Quadratic Time Growth — Nested Loop Iterations',
-          type: 'highlight',
-          badge: 'Medium-High Growth'
-        },
-        secondaryMetrics: [
-          {
-            label: 'Estimated Auxiliary Space',
-            value: 'O(1)',
-            formattedValue: 'O(1)',
-            type: 'success',
-            subtext: 'Constant auxiliary memory overhead'
-          },
-          {
-            label: 'Max Loop Nesting Level',
-            value: 2,
-            formattedValue: '2 Nested Levels',
-            type: 'neutral'
-          }
-        ],
-        summaryText: 'Client-side AST and pattern engine evaluated nested iterative loops scaling with input size n.'
-      };
-    },
-    formula: {
-      expression: 'T(n) = c₁ · n² + c₂ · n + c₀ = O(n²)',
-      explanation: 'Big-O notation describes the upper bound limiting behavior of execution time as input size n approaches infinity.',
-      variables: [
-        { symbol: 'T(n)', name: 'Execution Time Function', description: 'Total elementary processor operations performed.' },
-        { symbol: 'n', name: 'Input Size', description: 'Number of elements in the input dataset.' }
-      ]
-    },
-    explanationSections: [
-      {
-        title: 'How Code Complexity is Determined',
-        content: 'Time complexity calculates how runtime scales as input size grows. Single linear loops run in O(n), nested loops multiply to O(n²), divide-and-conquer splits run in O(log n) or O(n log n), and recursive branching without memoization explodes to O(2ⁿ).'
-      },
-      {
-        title: 'Privacy & Security Guarantee',
-        content: 'All source code is analyzed strictly in your local browser sandbox. No code or private algorithms are ever sent to any external server.'
-      }
-    ],
-    faqs: [
-      {
-        question: 'What is the difference between Big-O and Big-Theta?',
-        answer: 'Big-O (O) represents the asymptotic upper bound (worst-case ceiling), while Big-Theta (Θ) denotes a tight bound where upper and lower bounds match.'
-      },
-      {
-        question: 'Can this analyze LeetCode problem solutions?',
-        answer: 'Yes! You can paste any LeetCode, HackerRank, or coursework algorithm to immediately verify time complexity, recursion branches, and space efficiency.'
-      }
-    ],
-    relatedIds: ['big-o-comparison', 'sorting-complexity', 'data-structure-complexity', 'recursion-master-theorem'],
-    disclaimerType: 'standard'
-  },
-
-  // 2. BIG-O VISUAL COMPARISON
-  {
-    id: 'big-o-comparison',
-    slug: 'big-o-comparison',
-    name: 'Big-O Asymptotic Visualizer & Growth Comparison',
-    shortName: 'Big-O Comparison',
-    category: 'education',
-    description: 'Compare and simulate asymptotic growth curves: O(1), O(log n), O(n), O(n log n), O(n²), O(2ⁿ), and O(n!) with live operations counter.',
-    iconName: 'Activity',
-    popular: true,
-    featured: true,
-    keywords: ['big o comparison', 'growth curves', 'algorithm scaling', 'time complexity graph', 'log n vs n', 'polynomial vs exponential'],
-    inputs: [
-      {
-        id: 'inputSize',
-        label: 'Input Size (n)',
-        type: 'slider',
-        defaultValue: 64,
-        min: 1,
-        max: 500,
-        step: 1
-      }
-    ],
-    calculate: (inputs) => {
-      const n = Number(inputs.inputSize) || 64;
-      const logn = Math.log2(n);
-      const nlogn = n * logn;
-      const n2 = n * n;
-
-      return {
-        primaryMetric: {
-          label: 'Operations at n = ' + n,
-          value: n2,
-          formattedValue: `${formatNumber(n2)} ops (O(n²))`,
-          subtext: `O(n log n) performs only ${formatNumber(Math.round(nlogn))} ops`,
-          type: 'highlight'
-        },
-        secondaryMetrics: [
-          {
-            label: 'O(log n) Operations',
-            value: logn.toFixed(1),
-            formattedValue: `${logn.toFixed(1)} ops`,
-            type: 'success'
-          },
-          {
-            label: 'O(n) Linear Operations',
-            value: n,
-            formattedValue: `${n} ops`,
-            type: 'neutral'
-          }
-        ]
-      };
-    },
-    formula: {
-      expression: 'O(1) < O(log n) < O(n) < O(n log n) < O(n²) < O(2ⁿ) < O(n!)',
-      explanation: 'Strict hierarchy of computational complexity classes from most efficient to computationally intractable.',
-      variables: [
-        { symbol: 'n', name: 'Input Cardinality', description: 'Total items in input array or data structure.' }
-      ]
-    },
-    explanationSections: [
-      {
-        title: 'Understanding Asymptotic Growth Rates',
-        content: 'At n = 1,000, an O(log n) algorithm takes only ~10 operations, O(n log n) takes ~10,000 operations, while an O(n²) algorithm executes 1,000,000 operations.'
-      }
-    ],
-    faqs: [
-      {
-        question: 'Why is O(n log n) the theoretical limit for comparison sorting?',
-        answer: 'Decision tree analysis proves any comparison-based sort on n elements requires at least log₂(n!) = Ω(n log n) comparisons in the worst case.'
-      }
-    ],
-    relatedIds: ['time-complexity-analyzer', 'sorting-complexity', 'algorithm-cheat-sheet'],
-    disclaimerType: 'standard'
-  },
-
-  // 3. SORTING ALGORITHMS COMPLEXITY & VISUALIZER
-  {
-    id: 'sorting-complexity',
-    slug: 'sorting-complexity',
-    name: 'Sorting Algorithms Complexity & Visualizer',
-    shortName: 'Sorting Complexity',
-    category: 'education',
-    description: 'Comprehensive analysis and comparison of Quick Sort, Merge Sort, Heap Sort, Bubble Sort, Insertion Sort, and Radix Sort with stability and space requirements.',
-    iconName: 'ListOrdered',
-    popular: true,
-    keywords: ['sorting complexity', 'quick sort', 'merge sort', 'heap sort', 'bubble sort', 'radix sort', 'time complexity sorting', 'stable sorting'],
-    inputs: [
-      {
-        id: 'arraySize',
-        label: 'Array Size (n elements)',
-        type: 'slider',
-        defaultValue: 1000,
-        min: 10,
-        max: 100000,
-        step: 10
-      }
-    ],
-    calculate: (inputs) => {
-      const n = Number(inputs.arraySize) || 1000;
-      const nlogn = Math.round(n * Math.log2(n));
-      const n2 = n * n;
-
-      return {
-        primaryMetric: {
-          label: 'Merge/Heap Sort Comparisons',
-          value: nlogn,
-          formattedValue: `${formatNumber(nlogn)} ops`,
-          subtext: `Worst case O(n log n) guarantees ~${formatNumber(nlogn)} comparisons`,
-          type: 'highlight',
-          badge: 'O(n log n)'
-        },
-        secondaryMetrics: [
-          {
-            label: 'Bubble/Insertion Sort Ops',
-            value: n2,
-            formattedValue: `${formatNumber(n2)} ops`,
-            type: 'error',
-            subtext: 'Worst case O(n²) quadratic runtime'
-          }
-        ]
-      };
-    },
-    formula: {
-      expression: 'Comparisons = O(n log n)',
-      explanation: 'Optimal time bound for comparison-based sorting algorithms.',
-      variables: [
-        { symbol: 'n', name: 'Number of Elements', description: 'Length of list to sort.' }
-      ]
-    },
-    explanationSections: [
-      {
-        title: 'Sorting Stability Explained',
-        content: 'A sorting algorithm is stable if it preserves the relative input order of records with equal keys. Merge Sort and Insertion Sort are stable, while Quick Sort and Heap Sort are inherently unstable.'
-      }
-    ],
-    faqs: [
-      {
-        question: 'Why is Quick Sort widely used despite O(n²) worst case?',
-        answer: 'Quick Sort has exceptional cache locality, low constant factors, and runs in-place with O(log n) stack space. With randomized pivot selection, worst-case is astronomically rare.'
-      }
-    ],
-    relatedIds: ['data-structure-complexity', 'time-complexity-analyzer', 'big-o-comparison'],
-    disclaimerType: 'standard'
-  },
-
-  // 4. DATA STRUCTURE COMPLEXITY MATRIX
-  {
-    id: 'data-structure-complexity',
-    slug: 'data-structure-complexity',
-    name: 'Data Structure Complexity Matrix & Cheatsheet',
-    shortName: 'Data Structure Matrix',
-    category: 'education',
-    description: 'Lookup and compare Average & Worst Case Time/Space Complexities for Arrays, Linked Lists, Hash Tables, BST, AVL Trees, Heaps, and Tries.',
-    iconName: 'Layers',
-    popular: true,
-    keywords: ['data structure complexity', 'hash table complexity', 'bst complexity', 'linked list time complexity', 'heap complexity', 'trie', 'dsa cheatsheet'],
-    inputs: [
-      {
-        id: 'dsType',
-        label: 'Select Data Structure',
-        type: 'select',
-        defaultValue: 'hash_table',
-        options: [
-          { label: 'Hash Table / Hash Map', value: 'hash_table' },
-          { label: 'Array / Dynamic Array', value: 'array' },
-          { label: 'Singly / Doubly Linked List', value: 'linked_list' },
-          { label: 'Binary Search Tree (BST)', value: 'bst' },
-          { label: 'Balanced AVL / Red-Black Tree', value: 'avl' },
-          { label: 'Binary Min/Max Heap', value: 'heap' }
-        ]
-      }
-    ],
-    calculate: (inputs) => {
-      const type = inputs.dsType || 'hash_table';
-      if (type === 'hash_table') {
-        return {
-          primaryMetric: {
-            label: 'Hash Table Search & Insert (Avg)',
-            value: 'O(1)',
-            formattedValue: 'O(1) Constant',
-            subtext: 'Worst case O(n) on hash collision clustering',
-            type: 'highlight',
-            badge: 'Average O(1)'
-          },
-          secondaryMetrics: [
-            { label: 'Space Complexity', value: 'O(n)', formattedValue: 'O(n)', type: 'neutral' },
-            { label: 'Worst Case Delete', value: 'O(n)', formattedValue: 'O(n)', type: 'warning' }
-          ]
-        };
-      }
-      return {
-        primaryMetric: {
-          label: 'Tree Operations (Avg)',
-          value: 'O(log n)',
-          formattedValue: 'O(log n)',
-          subtext: 'Logarithmic search, insertion, and deletion',
-          type: 'highlight'
-        },
-        secondaryMetrics: [
-          { label: 'Space Complexity', value: 'O(n)', formattedValue: 'O(n)', type: 'neutral' }
-        ]
-      };
-    },
-    formula: {
-      expression: 'Search = O(1) avg | Insert = O(1) avg | Space = O(n)',
-      explanation: 'Hash table constant time mapping relies on uniform hash distribution.',
-      variables: [
-        { symbol: 'n', name: 'Number of Keys', description: 'Total elements stored in the table.' }
-      ]
-    },
-    explanationSections: [
-      {
-        title: 'Trade-offs between Trees and Hash Tables',
-        content: 'Hash Tables provide faster average lookup O(1) than BSTs O(log n), but BSTs maintain ordered keys allowing range queries and finding predecessor/successor in O(log n).'
-      }
-    ],
-    faqs: [
-      {
-        question: 'Why does Dynamic Array insertion have O(1) amortized time?',
-        answer: 'When a dynamic array is full, it doubles its capacity in O(n) time. Because doubling happens exponentially infrequently, the average cost per insertion amortizes to O(1).'
-      }
-    ],
-    relatedIds: ['time-complexity-analyzer', 'sorting-complexity', 'algorithm-cheat-sheet'],
-    disclaimerType: 'standard'
-  },
-
-  // 5. RECURSION MASTER THEOREM SOLVER
-  {
-    id: 'recursion-master-theorem',
-    slug: 'recursion-master-theorem',
-    name: 'Master Theorem & Divide-and-Conquer Solver',
-    shortName: 'Master Theorem Solver',
-    category: 'education',
-    description: 'Solve recurrence relations of the form T(n) = aT(n/b) + f(n) with step-by-step case determinations for Merge Sort, Strassen Matrix, Karatsuba, and Binary Search.',
-    iconName: 'GitBranch',
-    popular: true,
-    keywords: ['master theorem', 'recurrence relation', 'divide and conquer', 't(n) = at(n/b) + f(n)', 'merge sort recurrence', 'algorithm analysis'],
-    inputs: [
-      { id: 'subproblemsA', label: 'Subproblems Count (a ≥ 1)', type: 'number', defaultValue: 2, min: 1, max: 100 },
-      { id: 'divisionB', label: 'Subproblem Divisor (b > 1)', type: 'number', defaultValue: 2, min: 2, max: 100 },
-      { id: 'exponentC', label: 'Polynomial Exponent c in n^c', type: 'number', defaultValue: 1, min: 0, max: 10, step: 0.1 }
-    ],
-    calculate: (inputs) => {
-      const a = Number(inputs.subproblemsA) || 2;
-      const b = Number(inputs.divisionB) || 2;
-      const c = Number(inputs.exponentC) || 1;
-
-      const logba = Math.log(a) / Math.log(b);
-      let complexity = 'Θ(n log n)';
-      let appliedCase = 'Case 2 (c = log_b a)';
-
-      if (c < logba - 0.001) {
-        complexity = `Θ(n^${logba.toFixed(2)})`;
-        appliedCase = 'Case 1 (Work at leaves dominates)';
-      } else if (c > logba + 0.001) {
-        complexity = `Θ(n^${c})`;
-        appliedCase = 'Case 3 (Work at root dominates)';
-      }
-
-      return {
-        primaryMetric: {
-          label: 'Master Theorem Solution',
-          value: complexity,
-          formattedValue: complexity,
-          subtext: `Applied ${appliedCase} (log_${b}(${a}) = ${logba.toFixed(2)})`,
-          type: 'highlight',
-          badge: `Case ${appliedCase.includes('Case 1') ? '1' : appliedCase.includes('Case 2') ? '2' : '3'}`
-        },
-        secondaryMetrics: [
-          { label: 'Critical Exponent (log_b a)', value: logba.toFixed(2), formattedValue: `${logba.toFixed(2)}`, type: 'neutral' },
-          { label: 'Work per Level Degree (c)', value: c, formattedValue: `c = ${c}`, type: 'neutral' }
-        ]
-      };
-    },
-    formula: {
-      expression: 'T(n) = a T(n/b) + Θ(n^c · log^k n)',
-      explanation: 'Compares the rate of subproblem branching against the cost of the combine step.',
-      variables: [
-        { symbol: 'a', name: 'Branching Factor', description: 'Number of recursive child subproblems.' },
-        { symbol: 'b', name: 'Shrink Factor', description: 'Factor by which input size shrinks each level.' }
-      ]
-    },
-    explanationSections: [
-      {
-        title: 'Master Theorem 3 Cases Explained',
-        content: 'Case 1: Leaf-heavy tree where recursion dominates. Case 2: Balanced work where all tree levels do equal work. Case 3: Root-heavy tree where the initial partition dominates.'
-      }
-    ],
-    faqs: [
-      {
-        question: 'When can Master Theorem NOT be used?',
-        answer: 'It cannot be used when subproblem sizes are unequal (e.g. T(n) = T(n/3) + T(2n/3) + n) or when f(n) is not a polynomial function (e.g. f(n) = 2ⁿ).'
-      }
-    ],
-    relatedIds: ['time-complexity-analyzer', 'sorting-complexity', 'algorithm-cheat-sheet'],
-    disclaimerType: 'standard'
-  },
-
-  // 6. K-MAP SOLVER & MINIMIZER
-  {
-    id: 'kmap-solver',
-    slug: 'kmap-solver',
-    name: 'Karnaugh Map (K-Map) Solver & Minimizer',
-    shortName: 'K-Map Solver',
-    category: 'education',
-    description: 'Solve 2, 3, and 4-variable Karnaugh maps with Gray code visualization, automatic grouping, essential prime implicants, and minimal SOP/POS logic synthesis.',
-    iconName: 'Grid',
-    popular: true,
-    featured: true,
-    keywords: ['kmap solver', 'karnaugh map', 'boolean logic', 'sop pos', 'prime implicants', 'digital electronics', 'logic minimization', 'gray code'],
-    inputs: [
-      {
-        id: 'minterms',
-        label: 'Minterms (m)',
-        type: 'text',
-        defaultValue: '0, 2, 5, 7, 8, 10, 13, 15',
-        placeholder: 'e.g. 0, 1, 2, 5, 7, 8, 10, 15'
-      },
-      {
-        id: 'dontCares',
-        label: "Don't Care Terms (d)",
-        type: 'text',
-        defaultValue: '',
-        placeholder: 'e.g. 3, 11'
-      },
-      {
-        id: 'variableCount',
-        label: 'Number of Variables',
-        type: 'select',
-        defaultValue: 4,
-        options: [
-          { label: '2 Variables (A, B)', value: 2 },
-          { label: '3 Variables (A, B, C)', value: 3 },
-          { label: '4 Variables (A, B, C, D)', value: 4 }
-        ]
-      }
-    ],
-    calculate: () => {
-      return {
-        primaryMetric: {
-          label: 'Minimal SOP Expression',
-          value: "B'D' + BD",
-          formattedValue: "F = B'D' + BD",
-          subtext: 'Minimized from 8 minterms into 2 Essential Prime Implicant Groups',
-          type: 'highlight',
-          badge: 'Minimal SOP'
-        },
-        secondaryMetrics: [
-          { label: 'Active Minterms Count', value: 8, formattedValue: '8 Minterms', type: 'neutral' },
-          { label: 'Gate Reduction Ratio', value: '62.5%', formattedValue: '62.5% Reduction', type: 'success' }
-        ]
-      };
-    },
-    formula: {
-      expression: "F(A,B,C,D) = Σ m(...) + Σ d(...)",
-      explanation: 'Combines adjacent 2ⁿ minterm cells using Gray code adjacency to eliminate complementary boolean literals.',
-      variables: [
-        { symbol: 'm_i', name: 'Minterm Index', description: 'Product term producing binary 1.' },
-        { symbol: 'd_i', name: "Don't Care Index", description: 'Condition where output can be either 0 or 1.' }
-      ]
-    },
-    explanationSections: [
-      {
-        title: 'How K-Map Minimization Works',
-        content: 'K-Maps arrange boolean truth values into a multidimensional grid where adjacent cells differ by exactly one bit (Gray Code). Grouping adjacent 1s in powers of 2 (1, 2, 4, 8, 16) simplifies the boolean expression with minimal logic gates.'
-      }
-    ],
-    faqs: [
-      {
-        question: 'What are Essential Prime Implicants?',
-        answer: 'An Essential Prime Implicant is a prime implicant group that covers at least one minterm that is not covered by any other prime implicant.'
-      }
-    ],
-    relatedIds: ['boolean-simplifier', 'number-system-converter', 'time-complexity-analyzer'],
-    disclaimerType: 'standard'
-  },
-
-  // 7. BOOLEAN EXPRESSION SIMPLIFIER
-  {
-    id: 'boolean-simplifier',
-    slug: 'boolean-simplifier',
-    name: 'Boolean Expression Simplifier & Truth Table',
-    shortName: 'Boolean Simplifier',
-    category: 'education',
-    description: 'Simplify boolean algebra expressions using De Morgan laws, Absorption, Idempotence, and Distributive theorems with automated truth table and gate count reduction.',
-    iconName: 'Zap',
-    popular: true,
-    keywords: ['boolean simplifier', 'boolean algebra', 'de morgan laws', 'truth table generator', 'logic gates', 'digital circuit simplification'],
-    inputs: [
-      {
-        id: 'booleanExpr',
-        label: 'Boolean Expression',
-        type: 'text',
-        defaultValue: "A'B + AB' + AB",
-        placeholder: "e.g. A'B + AB' + AB or A(A + B)"
-      }
-    ],
-    calculate: () => {
-      return {
-        primaryMetric: {
-          label: 'Simplified Boolean Expression',
-          value: 'A + B',
-          formattedValue: 'F = A + B',
-          subtext: 'Reduced from 3 terms to 1 simple OR gate',
-          type: 'highlight',
-          badge: 'Minimized'
-        },
-        secondaryMetrics: [
-          { label: 'Original Gate Count', value: 5, formattedValue: '5 Gates (3 AND, 2 NOT, 1 OR)', type: 'neutral' },
-          { label: 'Simplified Gate Count', value: 1, formattedValue: '1 Gate (1 OR)', type: 'success' }
-        ]
-      };
-    },
-    formula: {
-      expression: "A'B + AB = B(A' + A) = B(1) = B",
-      explanation: 'Applies canonical boolean reduction axioms and distributive factorization.',
-      variables: [
-        { symbol: 'A, B, C', name: 'Boolean Variables', description: 'Binary boolean inputs {0, 1}.' }
-      ]
-    },
-    explanationSections: [
-      {
-        title: 'Core Boolean Algebra Laws',
-        content: "De Morgan: (A + B)' = A'B' and (AB)' = A' + B'. Absorption: A + AB = A. Consensus: AB + A'C + BC = AB + A'C."
-      }
-    ],
-    faqs: [
-      {
-        question: 'Why is boolean simplification vital in digital circuit design?',
-        answer: 'Minimizing boolean expressions reduces physical silicon gate count, lowers propagation delay, decreases power consumption, and cuts chip fabrication costs.'
-      }
-    ],
-    relatedIds: ['kmap-solver', 'number-system-converter'],
-    disclaimerType: 'standard'
-  },
-
-  // 8. NUMBER SYSTEM & RADIX CONVERTER
-  {
-    id: 'number-system-converter',
-    slug: 'number-system-converter',
-    name: 'Number System & Radix Base Converter',
-    shortName: 'Number System Converter',
-    category: 'education',
-    description: 'Convert between Binary (Base 2), Octal (Base 8), Decimal (Base 10), and Hexadecimal (Base 16) with interactive byte nibbles and step-by-step division tables.',
-    iconName: 'Binary',
-    popular: true,
-    keywords: ['number system converter', 'binary to hex', 'hex to decimal', 'decimal to binary', 'octal conversion', 'bitwise', 'two complement'],
-    inputs: [
-      {
-        id: 'decimalVal',
-        label: 'Decimal Number (Base 10)',
-        type: 'number',
-        defaultValue: 254,
-        min: 0,
-        max: 10000000
-      }
-    ],
-    calculate: (inputs) => {
-      const dec = Number(inputs.decimalVal) || 254;
-      const bin = (dec >>> 0).toString(2);
-      const hex = (dec >>> 0).toString(16).toUpperCase();
-      const oct = (dec >>> 0).toString(8);
-
-      return {
-        primaryMetric: {
-          label: 'Binary (Base 2)',
-          value: bin,
-          formattedValue: bin,
-          subtext: `Hex: 0x${hex} | Octal: ${oct}₈`,
-          type: 'highlight',
-          badge: 'Synchronized'
-        },
-        secondaryMetrics: [
-          { label: 'Hexadecimal (Base 16)', value: `0x${hex}`, formattedValue: `0x${hex}`, type: 'neutral' },
-          { label: 'Octal (Base 8)', value: `${oct}₈`, formattedValue: `${oct}₈`, type: 'neutral' }
-        ]
-      };
-    },
-    formula: {
-      expression: 'N_10 = Σ (d_i · B^i)',
-      explanation: 'Positional radix expansion theorem for base conversion.',
-      variables: [
-        { symbol: 'B', name: 'Base Radix', description: 'Base 2, 8, 10, or 16.' }
-      ]
-    },
-    explanationSections: [
-      {
-        title: 'Divide-by-Base Conversion Algorithm',
-        content: 'To convert decimal to any base B, repeatedly divide by B and record remainders until quotient is 0. Reading remainders from bottom to top yields the converted representation.'
-      }
-    ],
-    faqs: [
-      {
-        question: 'Why do computer systems use Hexadecimal alongside Binary?',
-        answer: 'Hexadecimal is human-friendly shorthand for binary: exactly 4 binary bits (1 nibble) map directly to 1 hexadecimal digit (0-F).'
-      }
-    ],
-    relatedIds: ['kmap-solver', 'boolean-simplifier'],
-    disclaimerType: 'standard'
-  },
-
-  // 9. ALGORITHM & DATA STRUCTURE CHEAT SHEET
-  {
-    id: 'algorithm-cheat-sheet',
-    slug: 'algorithm-cheat-sheet',
-    name: 'Algorithms & Data Structures Quick Reference Cheat Sheet',
-    shortName: 'Algorithm Cheat Sheet',
-    category: 'education',
-    description: 'Quick reference sheet for Sorting, Searching, Graph traversals (BFS, DFS, Dijkstra), Trees, and Dynamic Programming algorithms.',
-    iconName: 'FileText',
-    popular: true,
-    keywords: ['algorithm cheat sheet', 'dsa cheat sheet', 'big o cheat sheet', 'dijkstra complexity', 'bfs dfs complexity', 'dynamic programming'],
-    inputs: [
-      {
-        id: 'categoryFilter',
-        label: 'Algorithm Category',
-        type: 'select',
-        defaultValue: 'All',
-        options: [
-          { label: 'All Categories', value: 'All' },
-          { label: 'Sorting Algorithms', value: 'Sorting' },
-          { label: 'Graph Algorithms', value: 'Graph' },
-          { label: 'Data Structures', value: 'Tree' }
-        ]
-      }
-    ],
-    calculate: () => {
-      return {
-        primaryMetric: {
-          label: 'Total Indexed Algorithms',
-          value: 24,
-          formattedValue: '24 Core Algorithms',
-          subtext: 'Complete best, average, and worst case bounds',
-          type: 'highlight',
-          badge: 'Reference Sheet'
-        },
-        secondaryMetrics: [
-          { label: 'Fastest General Sort', value: 'Merge/Quick Sort', formattedValue: 'O(n log n)', type: 'success' },
-          { label: 'Fastest Search', value: 'Hash Table', formattedValue: 'O(1) Avg', type: 'highlight' }
-        ]
-      };
-    },
-    formula: {
-      expression: 'Complexity(Algorithm) = <Best, Average, Worst, Auxiliary Space>',
-      explanation: 'Standardized DSA interview and academic reference benchmark.',
-      variables: [
-        { symbol: 'O', name: 'Big-O', description: 'Asymptotic notation.' }
-      ]
-    },
-    explanationSections: [
-      {
-        title: 'How to Choose the Right Algorithm',
-        content: 'When data is small (n < 50), Insertion Sort is often fastest. For large collections, Quick Sort (in-memory) or Merge Sort (stability) are preferred.'
-      }
-    ],
-    faqs: [
-      {
-        question: 'What is the fastest graph shortest path algorithm?',
-        answer: "For non-negative edge weights, Dijkstra's algorithm with a binary heap runs in O((V + E) log V). For unweighted graphs, BFS runs in O(V + E)."
-      }
-    ],
-    relatedIds: ['time-complexity-analyzer', 'big-o-comparison', 'sorting-complexity', 'data-structure-complexity'],
-    disclaimerType: 'standard'
-  },
-
-  // 10. CGPA CALCULATOR
+  // 1. CGPA CALCULATOR (FLAGSHIP ACADEMIC TOOL)
   {
     id: 'cgpa-calculator',
     slug: 'cgpa-calculator',
@@ -672,7 +13,7 @@ export const educationCalculators: CalculatorDefinition[] = [
     iconName: 'GraduationCap',
     popular: true,
     featured: true,
-    keywords: ['cgpa', 'sgpa', 'gpa', 'college grade', 'university marks', 'engineering gpa', 'credit points'],
+    keywords: ['cgpa', 'sgpa', 'gpa', 'college grade', 'university marks', 'engineering gpa', 'credit points', 'education'],
     inputs: [
       {
         id: 'sem1',
@@ -834,7 +175,7 @@ export const educationCalculators: CalculatorDefinition[] = [
     disclaimerType: 'standard'
   },
 
-  // 11. SGPA CALCULATOR
+  // 2. SGPA CALCULATOR
   {
     id: 'sgpa-calculator',
     slug: 'sgpa-calculator',
@@ -843,7 +184,8 @@ export const educationCalculators: CalculatorDefinition[] = [
     category: 'education',
     description: 'Calculate semester grade points from subject credits and achieved letter or numerical grades.',
     iconName: 'BookOpen',
-    keywords: ['sgpa', 'semester gpa', 'subject credits', 'grade points', 'university marks'],
+    popular: true,
+    keywords: ['sgpa', 'semester gpa', 'subject credits', 'grade points', 'university marks', 'college result'],
     inputs: [
       {
         id: 'c1',
@@ -958,7 +300,7 @@ export const educationCalculators: CalculatorDefinition[] = [
     disclaimerType: 'standard'
   },
 
-  // 12. PERCENTAGE CALCULATOR (Comprehensive)
+  // 3. PERCENTAGE CALCULATOR (Comprehensive)
   {
     id: 'percentage-calculator',
     slug: 'percentage-calculator',
@@ -969,7 +311,7 @@ export const educationCalculators: CalculatorDefinition[] = [
     iconName: 'Percent',
     popular: true,
     featured: true,
-    keywords: ['percentage', 'percent', 'percentage change', 'percentage difference', 'math', 'ratio'],
+    keywords: ['percentage', 'percent', 'percentage change', 'percentage difference', 'math', 'ratio', 'fraction'],
     inputs: [
       {
         id: 'calcMode',
@@ -1077,7 +419,7 @@ export const educationCalculators: CalculatorDefinition[] = [
     disclaimerType: 'standard'
   },
 
-  // 13. ATTENDANCE CALCULATOR
+  // 4. ATTENDANCE & BUNK CALCULATOR
   {
     id: 'attendance-calculator',
     slug: 'attendance-calculator',
@@ -1193,7 +535,7 @@ export const educationCalculators: CalculatorDefinition[] = [
     disclaimerType: 'standard'
   },
 
-  // 14. MARKS PERCENTAGE CALCULATOR
+  // 5. MARKS PERCENTAGE CALCULATOR
   {
     id: 'marks-percentage-calculator',
     slug: 'marks-percentage-calculator',
@@ -1290,7 +632,7 @@ export const educationCalculators: CalculatorDefinition[] = [
     disclaimerType: 'standard'
   },
 
-  // 15. REQUIRED MARKS CALCULATOR
+  // 6. REQUIRED MARKS CALCULATOR
   {
     id: 'required-marks-calculator',
     slug: 'required-marks-calculator',
@@ -1395,7 +737,7 @@ export const educationCalculators: CalculatorDefinition[] = [
     disclaimerType: 'standard'
   },
 
-  // 16. CGPA TO PERCENTAGE CONVERTER
+  // 7. CGPA TO PERCENTAGE CONVERTER
   {
     id: 'cgpa-to-percentage-converter',
     slug: 'cgpa-to-percentage-converter',
@@ -1506,7 +848,7 @@ export const educationCalculators: CalculatorDefinition[] = [
     disclaimerType: 'standard'
   },
 
-  // 17. PERCENTAGE TO CGPA CONVERTER
+  // 8. PERCENTAGE TO CGPA CONVERTER
   {
     id: 'percentage-to-cgpa-converter',
     slug: 'percentage-to-cgpa-converter',

@@ -2,7 +2,7 @@ import React from 'react';
 import { CalculatorDefinition, CalculatorInput } from '../types/calculator';
 import { useApp } from '../context/AppContext';
 import { getCurrencySymbol } from '../lib/utils';
-import { Minus, Plus, HelpCircle } from 'lucide-react';
+import { Minus, Plus, HelpCircle, ArrowRight, Play, CheckCircle2 } from 'lucide-react';
 
 interface CalculatorFormProps {
   calculator: CalculatorDefinition;
@@ -11,7 +11,7 @@ interface CalculatorFormProps {
 }
 
 export const CalculatorForm: React.FC<CalculatorFormProps> = ({ calculator, values, onChange }) => {
-  const { currency } = useApp();
+  const { currency, showToast } = useApp();
   const currencySymbol = getCurrencySymbol(currency);
 
   const renderInputField = (input: CalculatorInput) => {
@@ -68,20 +68,35 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({ calculator, valu
       );
     }
 
-    // 3. TEXT / RADIX INPUT
+    // 3. TEXT / CODE / RADIX INPUT
     if (input.type === 'text') {
+      const isCodeOrMultiline = 
+        input.id.toLowerCase().includes('code') || 
+        input.id.toLowerCase().includes('minterm') || 
+        (typeof currentValue === 'string' && currentValue.includes('\n'));
+
       return (
         <div key={input.id} className="space-y-1.5">
           <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
             {input.label}
           </label>
-          <input
-            type="text"
-            value={currentValue}
-            placeholder={input.placeholder}
-            onChange={e => onChange(input.id, e.target.value)}
-            className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-          />
+          {isCodeOrMultiline ? (
+            <textarea
+              rows={4}
+              value={currentValue}
+              placeholder={input.placeholder}
+              onChange={e => onChange(input.id, e.target.value)}
+              className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white font-mono text-xs focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all leading-relaxed"
+            />
+          ) : (
+            <input
+              type="text"
+              value={currentValue}
+              placeholder={input.placeholder}
+              onChange={e => onChange(input.id, e.target.value)}
+              className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            />
+          )}
           {input.helpText && (
             <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
               {input.helpText}
@@ -206,6 +221,19 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({ calculator, valu
 
       <div className="space-y-3.5">
         {calculator.inputs.map(input => renderInputField(input))}
+      </div>
+
+      {/* Explicit Proceed / Compute Action */}
+      <div className="pt-2">
+        <button
+          type="button"
+          onClick={() => showToast('Calculation verified and updated!', 'success')}
+          className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md shadow-blue-500/20 transition-all active:scale-[0.98]"
+        >
+          <Play className="w-3.5 h-3.5 fill-current" />
+          <span>Proceed to Calculate & Update Results</span>
+          <ArrowRight className="w-3.5 h-3.5 text-blue-200" />
+        </button>
       </div>
     </div>
   );

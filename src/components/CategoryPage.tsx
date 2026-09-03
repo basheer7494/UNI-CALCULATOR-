@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CalculatorCategory, CalculatorDefinition } from '../types/calculator';
+import { CalculatorCategory } from '../types/calculator';
 import { CATEGORIES_CONFIG, getCalculatorsByCategory } from '../lib/calculatorRegistry';
 import { useApp } from '../context/AppContext';
 import { CalculatorCard } from './CalculatorCard';
@@ -14,7 +14,9 @@ import {
   ArrowRightLeft, 
   Sparkles,
   Zap,
-  BookOpen
+  BookOpen,
+  Radio,
+  CheckCircle
 } from 'lucide-react';
 
 interface CategoryPageProps {
@@ -39,27 +41,58 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ category }) => {
     );
   });
 
-  // Grouping for Education Category
   const isEducation = category === 'education';
+  const isEngineering = category === 'engineering';
 
+  // Engineering Grouping
   const programmingIds = [
     'time-complexity-analyzer',
+    'space-complexity-analyzer',
+    'big-o-complexity-calculator',
     'big-o-comparison',
     'sorting-complexity',
     'data-structure-complexity',
     'recursion-master-theorem',
+    'binary-converter',
+    'number-system-converter',
     'algorithm-cheat-sheet'
   ];
 
   const digitalLogicIds = [
     'kmap-solver',
-    'boolean-simplifier',
-    'number-system-converter'
+    'boolean-simplifier'
   ];
 
+  const electricalCircuitIds = [
+    'ohms-law-calculator',
+    'electrical-power-calculator',
+    'voltage-divider-calculator',
+    'current-divider-calculator',
+    'series-resistance-calculator',
+    'parallel-resistance-calculator',
+    'resistor-color-code-calculator',
+    'rc-time-constant-calculator',
+    'rl-time-constant-calculator',
+    'resonant-frequency-calculator',
+    'capacitive-reactance-calculator',
+    'inductive-reactance-calculator',
+    'frequency-time-period-calculator',
+    'wavelength-calculator',
+    'decibel-calculator',
+    'led-resistor-calculator',
+    'transformer-calculator',
+    'ac-power-calculator',
+    'resistor-calculator',
+    'frequency-calculator'
+  ];
+
+  // Education Grouping
   const academicIds = [
     'cgpa-calculator',
-    'sgpa-calculator',
+    'sgpa-calculator'
+  ];
+
+  const attendanceExamIds = [
     'attendance-calculator',
     'required-marks-calculator'
   ];
@@ -77,7 +110,10 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ category }) => {
 
   const programmingTools = getGroupedCalculators(programmingIds);
   const digitalLogicTools = getGroupedCalculators(digitalLogicIds);
+  const electricalTools = getGroupedCalculators(electricalCircuitIds);
+
   const academicTools = getGroupedCalculators(academicIds);
+  const attendanceExamTools = getGroupedCalculators(attendanceExamIds);
   const conversionTools = getGroupedCalculators(conversionIds);
 
   return (
@@ -106,16 +142,22 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ category }) => {
             <div className="space-y-1 max-w-2xl">
               <div className="flex items-center gap-2.5">
                 <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-                  {isEducation ? 'Student Calculation & Programming Analysis Toolkit' : catInfo.name}
+                  {isEngineering 
+                    ? 'Engineering & Computer Science Toolkit' 
+                    : isEducation 
+                      ? 'Education & Academic Grade Toolkit' 
+                      : catInfo.name}
                 </h1>
                 <span className="px-2.5 py-0.5 text-xs font-extrabold uppercase rounded-full bg-white/20 text-white backdrop-blur-md border border-white/20">
                   {allInCat.length} Tools
                 </span>
               </div>
               <p className="text-sm text-blue-50/90 leading-relaxed">
-                {isEducation 
-                  ? 'Advanced code complexity analysis, Big-O visualizers, K-Map solvers, Boolean logic simplifiers, and semester CGPA academic planners.'
-                  : catInfo.description}
+                {isEngineering
+                  ? 'Big-O time complexity analysis, algorithm visualizers, K-Map minimizers, Boolean algebra, Ohm’s law, and circuit engineering solvers.'
+                  : isEducation
+                    ? 'Precision CGPA to percentage calculators, SGPA estimators, college attendance bunk planners, and exam score targets.'
+                    : catInfo.description}
               </p>
             </div>
           </div>
@@ -136,8 +178,8 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ category }) => {
         </div>
       </div>
 
-      {/* Featured Flagship Card for Education (When in Education view without active filter) */}
-      {isEducation && !filterQuery && (
+      {/* Featured Flagship Card for Engineering */}
+      {isEngineering && !filterQuery && (
         <div className="p-6 sm:p-7 rounded-3xl bg-gradient-to-br from-slate-900 via-indigo-950 to-blue-950 text-white border border-indigo-800/40 shadow-2xl relative overflow-hidden">
           <div className="absolute right-0 top-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
           <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
@@ -145,9 +187,9 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ category }) => {
               <div className="flex items-center gap-2">
                 <span className="px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-400/30 text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5">
                   <Sparkles className="w-3 h-3 text-blue-400" />
-                  Flagship Feature
+                  Flagship CS Tool
                 </span>
-                <span className="text-xs text-slate-400">100% In-Browser AST Parser</span>
+                <span className="text-xs text-slate-400">100% Client-Side AST Engine</span>
               </div>
               <h2 className="text-xl sm:text-2xl font-black tracking-tight text-white">
                 AI Time & Space Complexity Analyzer
@@ -168,10 +210,42 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ category }) => {
         </div>
       )}
 
-      {/* Categorized Layout for Education or Standard Grid */}
-      {isEducation ? (
+      {/* Featured Flagship Card for Education */}
+      {isEducation && !filterQuery && (
+        <div className="p-6 sm:p-7 rounded-3xl bg-gradient-to-br from-slate-900 via-indigo-950 to-purple-950 text-white border border-indigo-800/40 shadow-2xl relative overflow-hidden">
+          <div className="absolute right-0 top-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div className="space-y-2 max-w-2xl">
+              <div className="flex items-center gap-2">
+                <span className="px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5">
+                  <GraduationCap className="w-3 h-3 text-indigo-400" />
+                  Academic Flagship
+                </span>
+                <span className="text-xs text-slate-400">CBSE, AICTE, VTU & Global Standards</span>
+              </div>
+              <h2 className="text-xl sm:text-2xl font-black tracking-tight text-white">
+                Multi-Scale CGPA & SGPA Semester Grade Planner
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Compute semester progression, weighted course credits, and convert between 10.0 scale, 4.0 US scale, and official board percentage equations.
+              </p>
+            </div>
+
+            <button
+              onClick={() => navigateTo({ view: 'calculator', id: 'cgpa-calculator' })}
+              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm shadow-lg shadow-indigo-600/30 transition-all hover:scale-105 shrink-0"
+            >
+              <CheckCircle className="w-4 h-4" />
+              Calculate My CGPA
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Engineering Categorized Sections */}
+      {isEngineering ? (
         <div className="space-y-10">
-          {/* Section 1: Programming & Complexity Analysis */}
+          {/* Section 1: Software & Algorithm Complexity */}
           {programmingTools.length > 0 && (
             <div className="space-y-4">
               <div className="flex items-center gap-2">
@@ -179,7 +253,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ category }) => {
                   <Code2 className="w-4 h-4" />
                 </div>
                 <h2 className="text-base font-bold text-slate-900 dark:text-white">
-                  Programming & Algorithm Complexity Tools ({programmingTools.length})
+                  Software & Algorithm Complexity ({programmingTools.length})
                 </h2>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -190,7 +264,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ category }) => {
             </div>
           )}
 
-          {/* Section 2: Digital Logic & Computer Architecture */}
+          {/* Section 2: Digital Logic & Computer Systems */}
           {digitalLogicTools.length > 0 && (
             <div className="space-y-4">
               <div className="flex items-center gap-2">
@@ -198,7 +272,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ category }) => {
                   <Cpu className="w-4 h-4" />
                 </div>
                 <h2 className="text-base font-bold text-slate-900 dark:text-white">
-                  Digital Logic & Computer Systems ({digitalLogicTools.length})
+                  Digital Logic & Computer Architecture ({digitalLogicTools.length})
                 </h2>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -209,7 +283,29 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ category }) => {
             </div>
           )}
 
-          {/* Section 3: Academic & Grade Planners */}
+          {/* Section 3: Electrical & Electronics Engineering */}
+          {electricalTools.length > 0 && (
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <div className="p-1.5 rounded-lg bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400">
+                  <Zap className="w-4 h-4" />
+                </div>
+                <h2 className="text-base font-bold text-slate-900 dark:text-white">
+                  Electrical & Circuit Engineering ({electricalTools.length})
+                </h2>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {electricalTools.map(c => (
+                  <CalculatorCard key={c.id} calculator={c} />
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      ) : isEducation ? (
+        /* Education Categorized Sections */
+        <div className="space-y-10">
+          {/* Section 1: Academic Grade & CGPA Planners */}
           {academicTools.length > 0 && (
             <div className="space-y-4">
               <div className="flex items-center gap-2">
@@ -217,7 +313,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ category }) => {
                   <GraduationCap className="w-4 h-4" />
                 </div>
                 <h2 className="text-base font-bold text-slate-900 dark:text-white">
-                  Academic Grade & Attendance Planners ({academicTools.length})
+                  Academic Grade & CGPA Planners ({academicTools.length})
                 </h2>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -228,7 +324,26 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ category }) => {
             </div>
           )}
 
-          {/* Section 4: Score & Unit Converters */}
+          {/* Section 2: Attendance & Exam Target Tools */}
+          {attendanceExamTools.length > 0 && (
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <div className="p-1.5 rounded-lg bg-blue-100 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400">
+                  <BookOpen className="w-4 h-4" />
+                </div>
+                <h2 className="text-base font-bold text-slate-900 dark:text-white">
+                  Attendance & Exam Score Targets ({attendanceExamTools.length})
+                </h2>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {attendanceExamTools.map(c => (
+                  <CalculatorCard key={c.id} calculator={c} />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Section 3: Percentage & Scale Converters */}
           {conversionTools.length > 0 && (
             <div className="space-y-4">
               <div className="flex items-center gap-2">
@@ -236,7 +351,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ category }) => {
                   <ArrowRightLeft className="w-4 h-4" />
                 </div>
                 <h2 className="text-base font-bold text-slate-900 dark:text-white">
-                  Score, Percentage & Radix Converters ({conversionTools.length})
+                  Score, Percentage & CGPA Converters ({conversionTools.length})
                 </h2>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -248,7 +363,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ category }) => {
           )}
         </div>
       ) : (
-        /* Standard Category Grid for other non-education categories */
+        /* Standard Category Grid for other categories */
         <div>
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-base font-bold text-slate-900 dark:text-white">
